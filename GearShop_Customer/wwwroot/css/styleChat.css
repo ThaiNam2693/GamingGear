@@ -1,0 +1,103 @@
+.chatbox {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    height: 500px;
+}
+
+.bodychat {
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    max-height: 400px;
+}
+
+.container-chatbox {
+    margin-bottom: auto;
+    width: 900px;
+    height: 472px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgb(2, 128, 196);
+    border-radius: 10px;
+}
+
+.header-chatbox h1 {
+    color: rgb(255, 255, 255);
+    padding: 10px;
+}
+
+.body-chatbox {
+    background-color: rgb(252, 252, 252);
+    color: white;
+    padding: 20px 30px;
+    height: 130%;
+    max-height: 400px;
+    /* Đặt kích thước tối đa */
+    overflow-y: auto;
+    /* Tạo thanh cuộn dọc khi cần */
+}
+
+.message {
+    background-color: rgb(231, 226, 226);
+    padding: 10px;
+    color: black;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+
+.user_message {
+    margin-left: auto;
+    background-color: rgb(19, 120, 220);
+    color: white;
+}
+
+.time {
+    color: gray;
+}
+
+.time_user {
+    color: gray;
+}
+
+    .time_user span {
+        margin-left: 20px;
+    }
+
+.footer-chatbox form {
+    display: flex;
+}
+
+form input {
+    flex: 1;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding-left: 5px;
+    font-size: 16px;
+    width: 0px;
+    border-bottom-left-radius: 10px;
+    background-color: rgb(247, 246, 246);
+    border: 1px solid rgb(199, 194, 194);
+}
+
+.button1 {
+    font-size: 18px;
+    width: 100px;
+    border: none;
+    outline: none;
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+    border-bottom-right-radius: 10px;
+}
+.button1:hover {
+        background-color: blue;
+        transition: 0.2s ease;
+    }

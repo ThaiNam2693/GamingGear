@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/_Layout_Login.cshtml";
+}
+<section class="vh-100" style="color: black;">
+
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5" style="margin-left: 670px;  margin-bottom: 90px;">
+                <div class="card shadow-2-strong" style="border-radius: 3rem; ">
+                    <div class="card-body p-5 text-center">
+                        <h3 class="mb-5" style="color: rgb(32, 27, 27)">Register</h3>
+                        <form method="post" action="/Login/Register" class="RegisterForm" onsubmit="return Validate()">
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control form-control-lg" id="ustxt" name="username" placeholder="Username" />
+                                <p style="color:red; text-align:left"></p>
+                                <p style="color:red; text-align:left" id="ErrorUsernameExist"></p>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control form-control-lg" id="nametxt" name="fullname" placeholder="Fullname" />
+                                <p style="color:red; text-align:left"></p>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control form-control-lg" id="emailtxt" name="email" placeholder="Email" />
+                                <p style="color:red; text-align:left"></p>
+                                <p style="color:red; text-align:left" id="ErrorEmailExist"></p>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control form-control-lg" id="phonetxt" name="phone" placeholder="Phone number" />
+                                <p style="color:red; text-align:left"></p>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" class="form-control form-control-lg" id="pwdtxt" name="password" placeholder="Password" />
+                                <p style="color:red; text-align:left"></p>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" class="form-control form-control-lg" id="re_pwdtxt" name="re_password" placeholder="Confirm Password" />
+                                <p style="color:red; text-align:left"></p>
+                                <a style="color: #000; margin-left: 84%; " href="/Login">Sign in</a>
+                            </div>
+
+
+                            <button style="font-weight: bold; " class="btn btn-primary btn-lg btn-block" type="submit" value="Submit" id="btnResigterSubmit" name="btnSubmit">Create new Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

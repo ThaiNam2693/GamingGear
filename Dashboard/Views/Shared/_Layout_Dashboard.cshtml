@@ -1,0 +1,159 @@
+﻿@using Newtonsoft.Json;
+
+
+<!DOCTYPE html>
+@{
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/png" href="~/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="~/assets/css/CSS.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js">
+    </script>
+    <script src="~/assets/js/datatable.js">   </script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        body {
+            background-color: rgb(236, 236, 236);
+        }
+
+        .page-link {
+            position: static;
+        }
+
+        div.dataTables_wrapper div.dataTables_length select {
+            width: 60px;
+            display: inline-block;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+                    <a href="./index.html" class="text-nowrap logo-img" style="text-align:center">
+                        <img src="~/source_img/advertising_img/logoGearshop.png" width="130" alt="" />
+                    </a>
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
+                    </div>
+                </div>
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </span>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Products Management</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/ProductPage" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-list-check"></i>
+                                </span>
+                                <span class="hide-menu">Products</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/ImportProduct" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                </span>
+                                <span class="hide-menu">Import Products</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Orders Management</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/ImportReceipts" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-receipt"></i>
+                                </span>
+                                <span class="hide-menu">Import Receipts</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/OrderRecieptPage" aria-expanded="false">
+                                <span style="margin-right: -7px">
+                                    <i class="fas fa-shopping-cart" style="padding-right:5px"></i>
+                                </span>
+                                <span class="hide-menu">Customer Orders</span>
+                            </a>
+                        </li>
+
+
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Personal Information</span>
+                            </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/PersonalProfile" aria-expanded="false">
+                                <span style="margin-right: -7px">
+                                    <i class="fas fa-shopping-cart" style="padding-right:5px"></i>
+                                </span>
+                                <span class="hide-menu">Nguyen Huu Duy</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">AUTH</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Dashboard/Logout" aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                </span>
+                                <span class="hide-menu">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Sidebar End -->
+        @RenderBody()
+
+        <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/assets/js/sidebarmenu.js"></script>
+        <script src="~/assets/js/app.min.js"></script>
+        <script src="~/assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="https://kit.fontawesome.com/6aa07dba6d.js" crossorigin="anonymous"></script>
+        <script src="~/assets/js/popup.js"></script>
+        <!-- for Form-->
+        <script src="~/assets/js/bootstrap.min.js"></script>
+        <script src="~/assets/js/jquery.validate.min.js"></script>
+        <script src="~/assets/js/main.js"></script>
+        <script src="~/assets/js/Edit.js"></script>
+        <script src="~/js/AddStaff.js"></script>
+
+</body>
+</html>

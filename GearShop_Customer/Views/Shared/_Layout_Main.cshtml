@@ -1,0 +1,304 @@
+﻿@using System.Collections.Generic
+@using Newtonsoft.Json
+@{
+    // Retrieve the serialized list from the session
+    var serializedList = Context.Session.GetString("listBrand");
+
+    // Deserialize the JSON string into a list
+    var brandList = JsonConvert.DeserializeObject<List<BusinessObject.BrandObject>>(serializedList);
+
+    var serializedCateList = Context.Session.GetString("listCate");
+
+    // Deserialize the JSON string into a list
+    var cateList = JsonConvert.DeserializeObject<List<BusinessObject.CategoryObject>>(serializedCateList);
+
+    var serialiedAccount = Context.Session.GetString("Session");
+    var countCart = Context.Session.GetString("Count");
+    int count = 0;
+    BusinessObject.CustomerObject acc = null;
+    if (serialiedAccount != null)
+    {
+        acc = JsonConvert.DeserializeObject<BusinessObject.CustomerObject>(serialiedAccount);
+    }
+    if (countCart != null)
+    {
+        count = JsonConvert.DeserializeObject<int>(countCart);
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @*   <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    *@
+
+    <meta charset="utf-8">
+    <title>Gearshop - Online Shop Website </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Ion icon -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/stylepopup.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/stylechat.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/CSS.css" />
+    <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
+
+    <script src="~/js/jquery-3.7.0.js"></script>
+
+</head>
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-1 px-xl-5">
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="d-inline-flex align-items-center h-100">
+                </div>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+                <div class="d-inline-flex align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                            My
+                            Account
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @if (acc == null)
+                            {
+                                <button class="dropdown-item" type="button"><a href="/Login">Sign in</a></button>
+
+                                <button class="dropdown-item" type="button"><a href="/Signup">Sign up</a></button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
+                                <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button>
+                            }
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="d-inline-flex align-items-center d-block d-lg-none">
+                    <a href="/Cart" class="btn px-0 ml-2">
+                        <i class="fas fa-shopping-cart text-dark"></i>
+                        <span class="badge text-dark border border-dark rounded-circle cart-value"
+                              style="padding-bottom: 2px;">@count</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+            <div class="col-lg-4">
+                <a href="/Home" class="text-decoration-none">
+                    <span class="h1 text-uppercase text-primary bg-dark px-2">GEAR</span>
+                    <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
+                </a>
+            </div>
+            <div class="col-lg-4 col-6 text-left">
+                <form action="/Product/ShopSearch" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for products" name="searchTerm" id="search-item" onkeyup="search()">
+                        <div class="input-group-append">
+                            <button class="input-group-text bg-transparent text-primary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="search-results" id="search-results">
+                    <div class="sproduct-list" id="product-list"></div>
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-6 text-right">
+                <p class="m-0">Customer Service</p>
+                <h5 class="m-0">+333 744 591</h5>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-dark mb-30">
+        <div class="row px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse"
+                   href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
+                    <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Categories</h6>
+                    <i class="fa fa-angle-down text-dark"></i>
+                </a>
+                <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
+                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
+                    @for (int j = 0; j < cateList.Count; j++)
+                    {
+
+
+                        <div class="navbar-nav w-100">
+                            <div class="nav-item dropdown dropright">
+                                <a href="/Product/Shop?category=@cateList[j].CatId" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Product/Shop?category=@cateList[j].CatId'">
+                                    @cateList[j].CatName<i class="fa fa-angle-right float-right mt-1"></i>
+                                </a>
+                                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
+                                     style="background-color: #f5f5f5;">
+                                    <p href="" class="dropdown-item"
+                                       style="font-weight: bold ; text-align: center; background-color: rgb(194, 194, 194); color: rgb(45, 44, 44);">
+                                        Brand
+                                    </p>
+
+                                    @for (int i = 0; i < brandList.Count; i++)
+                                    {
+                                        <a href="/Product/Shop?category=@cateList[j].CatId&brand=@brandList[i].BrandId" class="dropdown-item">@brandList[i].BrandName</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                </nav>
+            </div>
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                        <span class="h1 text-uppercase text-dark bg-light px-2">Gear</span>
+                        <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1">Shop</span>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="/Home" class="nav-item nav-link ">Home</a>
+                            <a href="/Product/Shop" class="nav-item nav-link">Shop</a>
+                            <a href="/Cart" class="nav-item nav-link">Cart</a>
+                            <a href="/Cart/CheckOut" class="nav-item nav-link">Checkout</a>
+                        </div>
+                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+
+                            <a href="/Cart" class="btn px-0 ml-3">
+                                <i class="fas fa-shopping-cart text-primary"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle cart-value"
+                                      style="padding-bottom: 2px;">@count</span>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+    @RenderBody()
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+        <div class="row px-xl-5 pt-5">
+            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+                <h5 class="text-secondary text-uppercase mb-4">Get In Touch</h5>
+                <p class="mb-4">
+                    We're proud to present to you GearShop where you can find everything you need to optimize your gaming experience. With a team passionate about gaming, we are committed
+                    to bringing you the best products and services, perfectly equipped for every virtual adventure.
+                </p>
+                <p class="mb-2">
+                    <i class="fa fa-map-marker-alt text-primary mr-3"></i>600 Nguyen Van Cu, Ninh Kieu, Can
+                    Tho, Vietnam
+                </p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>GearShop@fpt.edu.vn</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+333 744 591</p>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+
+                        <h5 class="text-secondary text-uppercase mb-4">Brand</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            @for (int i = 0; i < brandList.Count; i++)
+                            {
+
+                                <a class="text-secondary mb-2" href="/Product/Shop?brand=@brandList[i].BrandId">
+                                    <i class="fa fa-angle-right mr-2"></i>@brandList[i].BrandName
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <h5 class="text-secondary text-uppercase mb-4">Categories</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            @for (int i = 0; i < cateList.Count; i++)
+                            {
+
+
+                                <a class="text-secondary mb-2" href="/Product/Shop?category=@cateList[i].CatId">
+                                    <i class="fa fa-angle-right mr-2"></i>@cateList[i].CatName
+                                </a>
+
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-5">
+                        <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-secondary mb-2" href="/Login"><i class="fa fa-angle-right mr-2"></i>Sign in</a>
+                            <a class="text-secondary mb-2" href="/Login/SignUp"><i class="fa fa-angle-right mr-2"></i>Sign up</a>
+                        </div>
+
+                        <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
+                        <div class="d-flex">
+                            <a class="btn btn-primary btn-square mr-2" href="https://twitter.com/Cleny393976"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-square mr-2" href="https://www.facebook.com/quochoang.nguyen.50767"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-square" href="https://www.instagram.com/h.031511?fbclid=IwAR2HPrmoil7YY7sLEYiStevdH1sjaf2MYFJQc-pYaQSvdUM_8-7U4enEfSY"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+    <!-- Contact Javascript File -->
+    <script src="~/mail/jqBootstrapValidation.min.js"></script>
+    <script src="~/mail/contact.js"></script>
+    <script src="~/js/search.js"></script>
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+    <script src="~/js/shop.js"></script>
+    <script src="~/js/checkpw.js"></script>
+    <script src="~/js/orderdetailform.js"></script>
+    <script src="~/js/cart.js"></script>
+</body>
+</html>

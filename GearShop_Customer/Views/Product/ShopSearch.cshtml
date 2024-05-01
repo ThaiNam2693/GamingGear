@@ -1,0 +1,196 @@
+﻿@{
+    ViewData["Title"] = "ShopSearch";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+    var currentPage = ViewBag.currentPage;
+    var pageSize = ViewBag.pageSize;
+}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="#">Home</a>
+                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <span class="breadcrumb-item active">Shop Search</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Shop Start -->
+
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        @if (ViewBag.foundProducts.Count == 0)
+        {
+
+            <div class="col-12 text-center">
+                <p style="font-size: 25px; color: black">
+                    Sorry, we couldn't find any results for your keyword<br>
+                    Please check your keyword, use more general words, and try again!
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <p style="font-weight: bold; font-size: 30px; margin-left: 46%; color: #000;">Search</p>
+                    <p style="font-size: 20px; margin-left: 44%; color: #111111;">Search by:<span style="color: #000; font-weight: bold;"> @ViewBag.searchterm</span></p>
+                </div>
+
+
+                @foreach (var item in ViewBag.foundProducts)
+                {
+                    int cartCountQuan = 0;
+                    {
+                        if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                        {
+                            foreach (var item2 in ViewBag.cartCount)
+                            {
+                                if (item2.Item1 == item.ProId)
+                                {
+                                    cartCountQuan = item2.Item2;
+                                    break;
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 pb-1">
+                        <div class="product-item bg-light mb-4">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="@item.img[0]" alt="@item.ProName">
+                                <div class="product-action">
+
+                                    <a class="btn btn-outline-dark btn-square"
+                                       data-pro_quan_available="@item.ProQuan"
+                                       data-cart_quan_current="@cartCountQuan"
+                                       data-pro_id="@item.ProId"
+                                       data-isAvailable="@item.isAvailable.ToString()"
+                                       onclick="AddToCart(this)">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </a>
+
+                                    <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.ProId"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center py-4">
+                                <a class="h6 text-decoration-none text-truncate" href="">@item.ProName</a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    @if (item.DiscountPercent > 0)
+                                    {
+                                        var priceDiscount = @item.ProPrice - (@item.ProPrice * @item.DiscountPercent) / 100;
+                                        <h5>$@priceDiscount</h5>
+                                        <h6 class="text-muted ml-2"><del>$@item.ProPrice</del></h6>
+                                    }
+                                    else
+                                    {
+                                        <h5>$@item.ProPrice</h5>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+
+
+                            <li class="page-item @(ViewBag.IsFirstPage ? "disabled" : "")">
+                                @if (ViewBag.IsFirstPage)
+                                {
+                                    <span class="page-link">Previous</span>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@BuildPageUrl(ViewBag.CurrentPage - 1)">Previous</a>
+                                }
+                            </li>
+
+                            @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@BuildPageUrl(i)">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(ViewBag.IsLastPage ? "disabled" : "")">
+                                @if (ViewBag.IsLastPage)
+                                {
+                                    <span class="page-link">Next</span>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@BuildPageUrl(ViewBag.CurrentPage + 1)">Next</a>
+                                }
+                            </li>
+
+                            @functions {
+                            private string BuildPageUrl(int page)
+                            {
+                                // Initialize a list to store non-empty parameters
+                                var parameters = new List<string>();
+
+
+                                // Add category parameter if selected
+                                if (ViewBag.searchterm != null)
+                                    parameters.Add($"searchTerm={string.Join("&searchTerm=", ViewBag.searchterm)}");
+
+
+
+
+                                // Add page parameter
+                                parameters.Add($"page={page}");
+
+                                // Combine with the base URL
+                                return ViewBag.url + "?" + string.Join("&", parameters);
+                            }
+
+                        }
+                    </ul>
+                </nav>
+            </div>
+
+
+        </div>
+        }
+
+
+    </div>
+</div>
+
+<!-- Shop End -->
+<link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
+
+<!--Pop up Add to cart successful-->
+<div id="myModal-check" class="modal-check">
+
+    <!-- Modal content -->
+    <div class="modal-content-check">
+        <div class="wrapper-check">
+            <div class="tick-check"></div>
+        </div>
+        <p>The product has been added to Cart</p>
+    </div>
+
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description" id="popup-des-msg">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
+</div>

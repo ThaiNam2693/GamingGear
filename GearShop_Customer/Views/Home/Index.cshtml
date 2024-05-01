@@ -1,0 +1,486 @@
+﻿@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+
+    // Retrieve the serialized list from the session
+    var serializedList = Context.Session.GetString("listBrand");
+
+    // Deserialize the JSON string into a list
+    var brandList = JsonConvert.DeserializeObject<List<BusinessObject.BrandObject>>(serializedList);
+
+    int itemCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
+    int itemMouseCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
+    int itemKeyboardCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
+}
+
+
+<!-- Carousel Start -->
+<div class="container-fluid mb-3">
+    <div class="row px-xl-5">
+        <div class="col-lg-8">
+            <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#header-carousel" data-slide-to="1"></li>
+                    <li data-target="#header-carousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item position-relative active" style="height: 430px;">
+                        <img class="position-absolute w-100 h-100" src="~/source_img/advertising_img/sydney-a-taos-azio-4.jpg"
+                             style="object-fit: cover;">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                    Keyboard
+                                </h1>
+                                <p class="mx-md-5 px-5 animate__animated animate__bounceIn">
+                                    Three different switches
+                                    for unique gameplays.
+                                    The best gaming keyboard for all gamers.
+                                </p>
+                                <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                                   href="/Product/Shop?category=1">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item position-relative" style="height: 430px;">
+                        <img class="position-absolute w-100 h-100" src="~/source_img/advertising_img/evan-winters-ouroborosx.jpg"
+                             style="object-fit: cover;">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                    Mouse
+                                </h1>
+                                <p class="mx-md-5 px-5 animate__animated animate__bounceIn">
+                                    Diverse designs,
+                                    personalized designs, suitable for all types<br> of work
+                                </p>
+                                <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                                   href="/Product/Shop?category=2">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item position-relative" style="height: 430px;">
+                        <img class="position-absolute w-100 h-100" src="~/source_img/advertising_img/239b98104005777.5f59580635b56.jpg"
+                             style="object-fit: cover;">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                    Headphone
+                                </h1>
+                                <p class="mx-md-5 px-5 animate__animated animate__bounceIn">
+                                    Diverse designs, soft
+                                    ear design, suitable for all types of work
+                                </p>
+                                <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
+                                   href="/Product/Shop?category=3">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="product-offer mb-30" style="height: 200px;">
+                <img class="img-fluid" src="~/source_img/advertising_img/sydney-a-taos-capture-d-ecran-2017-10-05-a-10-40-01.jpg" alt="">
+                <div class="offer-text">
+                    <h6 class="text-white text-uppercase">Save 20%</h6>
+                    <h3 class="text-white mb-3">Special Offer</h3>
+                    <a href="/Product/Shop?sort=discount" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+            <div class="product-offer mb-30" style="height: 200px;">
+                <img class="img-fluid" src="~/source_img/advertising_img/maxresdefault.jpg" alt="">
+                <div class="offer-text">
+                    <h6 class="text-white text-uppercase">Save 20%</h6>
+                    <h3 class="text-white mb-3">Special Offer</h3>
+                    <a href="/Product/Shop?sort=discount" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Carousel End -->
+<!-- Featured Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
+                <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Featured End -->
+<!-- Categories Start -->
+<div class="container-fluid pt-5">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">BRANDS</span>
+    </h2>
+
+    <div class="row px-xl-5 pb-3">
+
+        @for (int i = 0; i < ViewBag.brandList.Count; i++)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+
+                <a class="text-decoration-none" href="/Product/Shop?brand=@ViewBag.brandList[i].BrandId">
+                    <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                            <img class="img-fluid" src="@ViewBag.brandList[i].BrandLogo">
+                        </div>
+                        <div class="flex-fill pl-3">
+                            <h6>@ViewBag.brandList[i].BrandName</h6>
+                            <small class="text-body">@ViewBag.totalProductBrand[i] Products</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
+<!-- Categories End -->
+<!-- Featured Products Start -->
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            FEATURED
+            PRODUCT
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+
+        @foreach (var item in ViewBag.list)
+        {
+
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.ProId)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
+            if (itemCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@item.img[0]" alt="@item.ProName">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.ProQuan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.ProId"
+                                   data-isAvailable="@item.IsAvailable.ToString()"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.ProId"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">@item.ProName</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+
+
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    var priceDiscount = @item.ProPrice - (@item.ProPrice * @item.DiscountPercent) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.ProPrice</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.ProPrice</h5>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                itemCount++; // Tăng biến đếm sau khi hiển thị sản phẩm
+            }
+            else
+            {
+                break; // Nếu đã hiển thị đủ 8 sản phẩm, thoát khỏi vòng lặp
+            }
+        }
+    </div>
+</div>
+
+<!-- Products End -->
+<!-- Offer Start -->
+<div class="container-fluid pt-5 pb-3">
+    <div class="row px-xl-5">
+        <div class="col-md-6">
+            <div class="product-offer mb-30" style="height: 300px;">
+                <img class="img-fluid" src="~/source_img/advertising_img/DwpOEEFWsAE2kkF.jpg" alt="">
+                <div class="offer-text">
+                    <h6 class="text-white text-uppercase">Save 20%</h6>
+                    <h3 class="text-white mb-3">Special Offer</h3>
+                    <a href="/Product/Shop?sort=discount" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="product-offer mb-30" style="height: 300px;">
+                <img class="img-fluid" src="~/source_img/advertising_img/mouse.jpg" alt="">
+                <div class="offer-text">
+                    <h6 class="text-white text-uppercase">Save 20%</h6>
+                    <h3 class="text-white mb-3">Special Offer</h3>
+                    <a href="/Product/Shop?sort=discount" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Offer End -->
+<!-- KEYBOARD Products Start -->
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            RECENT
+            KEYBOARD PRODUCTS
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+        @foreach (var item in ViewBag.listKeyboard)
+        {
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.ProId)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
+            if (itemKeyboardCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@item.img[0]" alt="@item.ProName">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.ProQuan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.ProId"
+                                   data-isAvailable="@item.IsAvailable.ToString()"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.ProId"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">@item.ProName</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    var priceDiscount = @item.ProPrice - (@item.ProPrice * @item.DiscountPercent) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.ProPrice</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.ProPrice</h5>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                itemKeyboardCount++; // Tăng biến đếm sau khi hiển thị sản phẩm
+            }
+            else
+            {
+                break; // Nếu đã hiển thị đủ 8 sản phẩm, thoát khỏi vòng lặp
+            }
+        }
+    </div>
+</div>
+<!-- Products End -->
+<!-- Products MOUSE Start -->
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            Recent
+            MOUSE
+            Products
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+        @foreach (var item in ViewBag.listMouse)
+        {
+            int cartCountQuan = 0;
+            {
+                if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                {
+                    foreach (var item2 in ViewBag.cartCount)
+                    {
+                        if (item2.Item1 == item.ProId)
+                        {
+                            cartCountQuan = item2.Item2;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
+            if (itemMouseCount < 8) // Kiểm tra biến đếm có nhỏ hơn 8 không
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@item.img[0]" alt="@item.ProName">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.ProQuan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.ProId"
+                                   data-isAvailable="@item.IsAvailable.ToString()"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.ProId"><i class="fa fa-search"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">@item.ProName</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    var priceDiscount = @item.ProPrice - (@item.ProPrice * @item.DiscountPercent) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.ProPrice</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.ProPrice</h5>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                itemMouseCount++; // Tăng biến đếm sau khi hiển thị sản phẩm
+            }
+            else
+            {
+                break; // Nếu đã hiển thị đủ 8 sản phẩm, thoát khỏi vòng lặp
+            }
+        }
+
+    </div>
+</div>
+<!-- Products End -->
+<!-- Vendor Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel vendor-carousel">
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/logitechg-logo.png" alt="">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/Razors.png" alt="PrODUCT">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/AsusTek-black-logo.png" style="height: 38px;" alt="">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/Corsair.png" alt="">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/Dare-u.png" alt="">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/akko.png" style="height: 38px;">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/Untitled-1.png" style="height: 38px;" alt="">
+                </div>
+                <div class="bg-light p-4">
+                    <img src="~/source_img/advertising_img/steelserires.png" style="height: 38px;" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vendor End -->
+<!-- Shop End -->
+<link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
+
+<!--Pop up Add to cart successful-->
+<div id="myModal-check" class="modal-check">
+
+    <!-- Modal content -->
+    <div class="modal-content-check">
+        <div class="wrapper-check">
+            <div class="tick-check"></div>
+        </div>
+        <p>The product has been added to Cart</p>
+    </div>
+
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description" id="popup-des-msg">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span> products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
+</div>

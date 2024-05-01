@@ -1,0 +1,279 @@
+﻿@{
+    ViewData["Title"] = "ShopDetail";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+
+    int itemCount = 0; // Khởi tạo biến đếm để hiển thị 8 sản phẩm
+}
+<script src="https://kit.fontawesome.com/b9fa78779b.js" crossorigin="anonymous"></script>
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-20">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
+                <span class="breadcrumb-item active">@ViewBag.pro.ProName</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Shop Detail Start -->
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 mb-30">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner bg-light" style="text-align:center">
+                    @for (var i = 0; i < ViewBag.pro.img.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img style="width: 400px; height: 450px; object-fit:contain;" src="@ViewBag.pro.img[i]" alt="Image">
+                        </div>
+                    }
+
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                    <i class="fa fa-2x fa-angle-left text-dark"></i>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                    <i class="fa fa-2x fa-angle-right text-dark"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-7 h-auto mb-30">
+            <div class="h-100 bg-light p-30">
+                <h3>@ViewBag.pro.ProName</h3>
+                <div class="d-flex mb-3">
+                </div>
+
+                @if (@ViewBag.pro.DiscountPercent > 0)
+                {
+                    var priceDiscount = ViewBag.pro.ProPrice - (ViewBag.pro.ProPrice * ViewBag.pro.DiscountPercent) / 100;
+
+                    <h3 class="text-muted ml-2"><del style="color: #155724; margin-left: -9px">$@ViewBag.pro.ProPrice</del></h3>
+                    priceDiscount = Math.Round(priceDiscount, 2);
+                    <h2 class="font-weight-semi-bold mb-4">$@priceDiscount</h2>
+                }
+                else
+                {
+                    <h2 class="font-weight-semi-bold mb-4">$@ViewBag.pro.ProPrice</h2>
+                }
+
+
+
+
+
+
+                <p class="mb-4">
+                    The product @ViewBag.pro.ProName is designed with high quality, providing you with a smooth experience and suitability for various types of tasks, from gaming to office work. This makes it an excellent choice for both entertainment enthusiasts and those in need of a reliable tool for daily work.
+                </p>
+
+
+                <div class="d-flex align-items-center mb-3 pt-2">
+                    @if (ViewBag.pro.ProQuan > 0 && ViewBag.pro.IsAvailable == true)
+                    {
+                        <div class="input-group quantity mr-3" style="width: 130px;">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-minus">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control bg-secondary border-0 text-center" id="quan_input" onkeydown="return isValidInput(event)" value="1">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary btn-plus">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <a class="btn btn-outline-dark btn-square" data-pro_quan_available="@ViewBag.pro.ProQuan" data-cart_quan_current="@ViewBag.cartQuan" data-pro_id="@ViewBag.pro.ProId" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                        @if (ViewBag.pro.ProQuan == 1)
+                        {
+                            <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.ProQuan">@ViewBag.pro.ProQuan product available</div>
+                        }
+                        else
+                        {
+                            <div class="number-product ml-3" id="p-quan-avai" data-product_quan="@ViewBag.pro.ProQuan">@ViewBag.pro.ProQuan products available</div>
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="number-product ml-3" style="color:red;font-size:25px;"><strong>Product is unavailable</strong></div>
+                    }
+                </div>
+
+                <div class="d-flex pt-2">
+                    <strong class="text-dark mr-2">Share on:</strong>
+                    <div class="d-inline-flex">
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-dark px-2" href="">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="bg-light p-30">
+                <div class="nav nav-tabs mb-4">
+                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                    <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Technical parameters</a>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <h4 class="mb-3">@ViewBag.pro.ProName Description</h4>
+                        <p>@ViewBag.pro.ProDes</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-pane-2">
+                        <h4 class="mb-3" style="text-align: center;">Technical parameters</h4>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush" style="font-weight: bold; color: rgb(62, 60, 60); text-align: center;">
+                                    @foreach (var item in ViewBag.pro.pro_attribute)
+                                    {
+                                        <li class="list-group-item px-0">
+                                            @item.Key
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush" style="text-align: center;">
+                                    @foreach (var item in ViewBag.pro.pro_attribute)
+                                    {
+                                        <li class="list-group-item px-0">
+                                            @item.Value
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Shop Detail End -->
+<!-- Products Start -->
+<div class="container-fluid py-5">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel related-carousel">
+
+
+
+                @foreach (var item in ViewBag.productByCateList)
+                {
+
+                    int cartCountQuan = 0;
+                    {
+                        if (ViewBag.cartCount != null && ViewBag.cartCount.Count > 0)
+                        {
+                            foreach (var item2 in ViewBag.cartCount)
+                            {
+                                if (item2.Item1 == item.ProId)
+                                {
+                                    cartCountQuan = item2.Item2;
+                                    break;
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    <div class="product-item bg-light">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="@item.img[0]" alt="">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square"
+                                   data-pro_quan_available="@item.ProQuan"
+                                   data-cart_quan_current="@cartCountQuan"
+                                   data-pro_id="@item.ProId"
+                                   onclick="AddToCart(this)">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+
+                                <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?pro_id=@item.ProId"><i class="fa fa-search"></i></a>
+                            </div>
+
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">@item.ProName</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    var priceDiscount = @item.ProPrice - (@item.ProPrice * @item.DiscountPercent) / 100;
+                                    priceDiscount = Math.Round(priceDiscount, 2);
+                                    <h5>$@priceDiscount</h5>
+                                    <h6 class="text-muted ml-2"><del>$@item.ProPrice</del></h6>
+                                }
+                                else
+                                {
+                                    <h5>$@item.ProPrice</h5>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Products End -->
+
+
+<link href="~/css/checked.css" rel="stylesheet" />
+<link href="~/css/alertcartpopup.css" rel="stylesheet" />
+
+<!--Pop up Add to cart successful-->
+<div id="myModal-check" class="modal-check">
+
+    <!-- Modal content -->
+    <div class="modal-content-check">
+        <div class="wrapper-check">
+            <div class="tick-check"></div>
+        </div>
+        <p>The product has been added to Cart</p>
+    </div>
+
+</div>
+
+<div class="popup center" id="popup-cart-alert">
+    <div class="title-popup">
+        Error!
+    </div>
+    <div class="description">
+        You have <span id="pro-quan-alert-msg" style="font-weight:bold;"></span>  products in your cart. The selected quantity cannot be added to the cart as it would exceed your purchase limit.
+    </div>
+    <div class="dismiss-btn">
+        <button id="dismiss-popup-btn" onclick="$('#popup-cart-alert').removeClass('active')">Dismiss</button>
+    </div>
+</div>

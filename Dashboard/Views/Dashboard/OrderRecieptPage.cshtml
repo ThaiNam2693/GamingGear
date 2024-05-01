@@ -1,0 +1,522 @@
+﻿@using Newtonsoft.Json;
+
+@{
+    ViewData["Title"] = "OrderRecieptPage";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+    $(document).ready(function () {
+        $('#example2').DataTable();
+    });
+    $(document).ready(function () {
+        $('#example3').DataTable();
+    });
+    $(document).ready(function () {
+        $('#example4').DataTable();
+    });
+</script>
+<div class="body-wrapper">
+    <div class="container">
+        <h1 class="Header">ORDERS</h1>
+        @if (Message != null && Message != "")
+        {
+            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> @Message.
+            </div>
+        }
+        <div class="tabs" style="min-height: 1500px;">
+            <div id="myModal" class="modal" style="position: absolute;">
+
+                <!-- Modal content -->
+
+                <div class="invoice-box modal-content">
+                    <span class="close">&times;</span>
+                    <table cellpadding="0" cellspacing="0" style="color: black" id="OrderReceipt">
+                        <tr class="top">
+                            <td colspan="3">
+                                <table>
+                                    <tr>
+                                        <td class="title">
+                                            <img src="~/source_img/advertising_img/GearShopBanner.png"
+                                                 style="width: 100%; max-width: 300px" />
+                                        </td>
+                                        <td style="text-align: end;">
+                                            <span style="color: #5D87FF; font-weight:bold">Invoice #:</span> <span id="Order_ID"> 1</span><br />
+                                            <span style="color: #5D87FF; font-weight:bold">Created Date:</span> <span id="Created_Date"> </span><br />
+                                            <span style="color: #5D87FF; font-weight:bold">Shipping Date:</span> <span id="Shipped_Date"> </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="information" style="color: black;">
+                            <td colspan="3" style="padding-left: 0px;">
+                                <table>
+                                    <tr>
+                                        <td style="padding: 0px;">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Fullname:</span>
+
+                                                    </td>
+                                                    <td id="Name">
+                                                        Nguyen Huu Duy
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Phone Number:</span>
+
+                                                    </td>
+                                                    <td id="PhoneNumber">
+                                                        0907124350
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">Email:</span>
+                                                    </td>
+                                                    <td id="Email">
+                                                        tin66hv@gmail.com
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span style="color: #5D87FF; font-weight:bold">In Charge:</span>
+                                                    </td>
+                                                    <td id="Staff_Name">
+                                                        To be Decided
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="text-align: end;" id="Address">
+                                        </td>
+
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr class="heading">
+                            <td colspan="3" style="color: #5D87FF;">Reminder</td>
+
+                        </tr>
+
+                        <tr class="details">
+                            <td colspan="3" id="Description"></td>
+
+                        </tr>
+
+                        <tr class="heading" style="color: #5D87FF;">
+                            <td>Item</td>
+
+                            <td>Quantity</td>
+
+                            <td>Price</td>
+                        </tr>
+
+                        <tr class="shipping">
+                            <td>Shipping</td>
+
+                            <td></td>
+                            <td>$10</td>
+                        </tr>
+                        <tr class="total">
+                            <td></td>
+
+                            <td></td>
+                            <td style="font-weight:bold">Total: <span style="font-weight:bold" id="TotalPrice"> </span></td>
+                        </tr>
+                    </table>
+
+                    <div id="buttonsContainer" class="row"></div>
+
+                </div>
+
+
+            </div>
+            <div class="tabby-tab">
+                <input type="radio" id="tab-1" name="tabby-tabs" checked>
+                <label for="tab-1" class="tabby-tablabel">PENDING ORDERS</label>
+                <div class="tabby-content" style="z-index: 0;">
+                    <h1 class="Title">List of Pending Orders</h1>
+                   
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">From: <input type="text" id="minColumn4" name="min"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in ViewBag.OrderPending){
+                                <tr>
+                                <td>@item.OrderId</td>
+                                    @foreach (var address in ViewBag.Addresses)
+                                    {
+                                        if (address.OrderId == item.OrderId)
+                                        {
+                                            <td>@address.Fullname</td>
+                                            <td>@address.PhoneNum</td>
+                                        }
+                                    }
+                                <td>$@item.TotalPrice</td>
+                                    <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                                    <td> <a class="SmallTitle"  data-orderid="@item.OrderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
+                            </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4;
+
+                        // Custom filtering function which will search data in column four between two values
+                       DataTable.ext.search.push(function (settings, data, dataIndex) {
+                        let min4 = minDateColumn4.val();
+                         let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); 
+                        // Parse date in the expected format
+
+                        if (min4 === null || min4 <= date4) {
+                        return true;
+                         }
+                        return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4 = new DateTime('#minColumn4', {
+                        format: 'MM/DD/YYYY h:mm:ss A' // Format for "10/26/2023 12:00:00 AM"
+                        });
+
+                        // DataTables initialization
+                        let table = new DataTable('#example');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minColumn4, #maxColumn5').forEach((el) => {
+                            el.addEventListener('change', () => table.draw());
+                        });
+
+                    </script>
+                </div>
+            </div>
+            <div class="tabby-tab">
+                <input type="radio" id="tab-4" name="tabby-tabs" >
+                <label for="tab-4" class="tabby-tablabel">ACCEPTED ORDERS</label>
+                <div class="tabby-content" style="z-index: 0;">
+                    <h1 class="Title">List of Accepteds Orders</h1>
+                    
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">From: <input type="text" id="minColumn4four" name="min"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example4" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderAccepted)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    @foreach (var address in ViewBag.Addresses)
+                                    {
+                                        if (address.OrderId == item.OrderId)
+                                        {
+                                            <td>@address.Fullname</td>
+                                            <td>@address.PhoneNum</td>
+                                        }
+                                    }
+                                    <td>$@item.TotalPrice</td>
+                                    <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.OrderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4four;
+
+                        // Custom filtering function which will search data in column four between two values
+                        DataTable.ext.search.push(function (settings, data, dataIndex) {
+                            let min4 = minDateColumn4four.val();
+                            let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A');
+                            // Parse date in the expected format
+
+                            if (min4 === null || min4 <= date4) {
+                                return true;
+                            }
+                            return false;
+                        });
+
+                        // Create date inputs for column 4 and column 5
+                        minDateColumn4four = new DateTime('#minColumn4four', {
+                            format: 'MM/DD/YYYY h:mm:ss A' // Format for "10/26/2023 12:00:00 AM"
+                        });
+
+                        // DataTables initialization
+                        let table4 = new DataTable('#example4');
+
+                        // Re-filter the table when date inputs change
+                        document.querySelectorAll('#minColumn4four, #maxColumn5').forEach((el) => {
+                            el.addEventListener('change', () => table4.draw());
+                        });
+
+                    </script>
+                </div>
+            </div>
+            <div class="tabby-tab">
+                <input type="radio" id="tab-2" name="tabby-tabs">
+                <label for="tab-2" class="tabby-tablabel">SHIPPING ORDERS</label>
+                <div class="tabby-content" style="z-index: 0;">
+                    >
+                    <h1 class="Title">List of Shipping Orders</h1>
+                    <!--Danh sách account sort theo số tiền sử dụng-->
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    From: <input type="text" id="minDateColumn4two"
+                                                 name="max">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example2" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderShipped)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    @foreach (var address in ViewBag.Addresses)
+                                    {
+                                        if (address.OrderId == item.OrderId)
+                                        {
+                                            <td>@address.Fullname</td>
+                                            <td>@address.PhoneNum</td>
+                                        }
+                                    }
+                                    <td>$@item.TotalPrice</td>
+                                    <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.OrderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
+                                </tr>
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4two, maxDateColumn5two;
+
+                        // Custom filtering function which will search data in column four based on a minimum date
+DataTable.ext.search.push(function (settings, data, dataIndex) {
+    let min4 = minDateColumn4two.val();
+    let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
+
+    if (min4 === null || min4 <= date4) {
+        return true;
+    }
+    return false;
+});
+
+// Create date inputs for column 4 and column 5 with the specified format
+minDateColumn4two = new DateTime('#minDateColumn4two', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
+
+// DataTables initialization
+let table2 = new DataTable('#example2');
+
+// Re-filter the table when the minimum date input changes
+document.querySelector('#minDateColumn4two').addEventListener('change', () => table2.draw());
+                    </script>
+                </div>
+            </div>
+
+            <div class="tabby-tab">
+                <input type="radio" id="tab-3" name="tabby-tabs">
+                <label for="tab-3" class="tabby-tablabel">COMPLETED ORDERS</label>
+                <div class="tabby-content" style="z-index: 0;">
+                    <h1 class="Title" style="padding-bottom: 20px;">List of Completed Orders</h1>
+                    <!--Thống kê doanh thu và có bảng-->
+                    <div class="col-12">
+                        <div class="row " style=" padding-bottom: 20px;">
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    From: 
+                                    <input type="text" id="minDateColumn4three"
+                                                 name="max">
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <p class="SmallTitle">
+                                    To: 
+                                    <input type="text" id="maxDateColumn5three"
+                                               name="min">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Danh sách sản phẩm sort theo số lượng bán-->
+                    <table id="example3" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone Number</th>
+                                <th>Price</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderCompleted)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    @foreach (var address in ViewBag.Addresses)
+                                    {
+                                        if (address.OrderId == item.OrderId)
+                                        {
+                                            <td>@address.Fullname</td>
+                                            <td>@address.PhoneNum</td>
+                                        }
+                                    }
+                                    <td>$@item.TotalPrice</td>
+                                    <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.EndDate.ToString("dd/MM/yyyy")</td>
+                                    <td> <a class="SmallTitle" data-orderid="@item.OrderId" onclick="GetOrderReceipt(this)">Show Order</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <script>
+                        let minDateColumn4three, maxDateColumn5three;
+
+// Custom filtering function which will search data in column four between two values
+DataTable.ext.search.push(function (settings, data, dataIndex) {
+    let min4 = minDateColumn4three.val();
+    let max5 = maxDateColumn5three.val();
+    let date4 = moment(data[4], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
+    let date5 = moment(data[5], 'MM/DD/YYYY h:mm:ss A'); // Parse date in the expected format
+
+    if (
+        (min4 === null && max5 === null) ||
+        (min4 === null && date5 <= max5) ||
+        (min4 <= date4 && max5 === null) ||
+        (min4 <= date4 && date5 <= max5)
+    ) {
+        return true;
+    }
+    return false;
+});
+
+// Create date inputs for column 4 and column 5 with the specified format
+minDateColumn4three = new DateTime('#minDateColumn4three', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
+maxDateColumn5three = new DateTime('#maxDateColumn5three', {
+    format: 'MM/DD/YYYY h:mm:ss A' // Format for '10/26/2023 12:00:00 AM'
+});
+
+// DataTables initialization
+let table3 = new DataTable('#example3');
+
+// Re-filter the table when date inputs change
+document.querySelectorAll('#minDateColumn4three, #maxDateColumn5three').forEach((el) => {
+    el.addEventListener('change', () => table3.draw());
+});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!--  Row 1 -->
+    </div>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+

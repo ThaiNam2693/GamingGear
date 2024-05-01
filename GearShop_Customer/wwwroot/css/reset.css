@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.Entryemail {
+    transform: translateX(80%);
+    position: relative;
+    display: none;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 10px;
+    background-color: #ffff;
+}
+
+    .Entryemail form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 3rem 4rem;
+    }
+
+    .Entryemail h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+.inputbox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+    .inputbox input {
+        font-size: 18px;
+        padding: 10px 15px;
+        width: 20rem;
+    }
+
+.btnbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+    .btnbox input {
+        position: relative;
+        width: 45%;
+        height: 35px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(243, 130, 108);
+        color: #fff;
+        transition: 0.5s;
+    }
+
+        .btnbox input:hover {
+            background-color: rgb(241, 64, 29);
+        }
+
+.Entryemail ion-icon {
+    font-size: 40px;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    z-index: 100;
+    color: rgb(243, 130, 108);
+}
+
+p {
+    color: red;
+    margin-bottom: 2.75rem;
+}
+/* ==============OTP============== */
+.EntryOTP {
+    position: relative;
+    display: none;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 10px;
+    left: 20rem;
+    background: white;
+}
+
+    .EntryOTP form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 3rem 4rem;
+    }
+
+    .EntryOTP text {
+        text-align: center;
+        margin-bottom: 1.3rem;
+    }
+
+    .EntryOTP ion-icon {
+        font-size: 40px;
+        position: absolute;
+        top: 45px;
+        left: 20px;
+        z-index: 100;
+        color: rgb(243, 130, 108);
+    }
+
+    .EntryOTP h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+.otpbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .otpbox input {
+        display: flex;
+        width: 3rem;
+        font-size: 32px;
+        padding: 0.4rem;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+.btnResend {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+    .btnResend:hover {
+        color: #ffc355;
+        cursor: pointer;
+    }
+
+
+/* =========Reset password========= */
+.Resetpass {
+    position: relative;
+    display: none;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 10px;
+    background: #ffff;
+    left: 20rem
+}
+
+    .Resetpass form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 3rem 4rem;
+    }
+
+.reset_input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+    .reset_input input {
+        font-size: 18px;
+        padding: 10px 15px;
+        width: 20rem;
+    }
+
+.Resetpass ion-icon {
+    font-size: 40px;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    z-index: 100;
+    color: rgb(243, 130, 108);
+}
+
+.Resetpass h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.Resetpass text {
+    text-align: center;
+}
+
+/* TO CHANGE THE FORM */
+.showform {
+    display: flex;
+}
+
+.form-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+}
+
+@media screen and (max-width: 456px) {
+    .Entryemail form {
+        position: relative;
+        width: 25rem;
+        height: auto;
+    }
+
+    .Entryemail h2 {
+        width: 90%;
+    }
+
+    .inputbox input {
+        width: 17rem;
+    }
+
+    .btnbox input {
+        width: 90%;
+    }
+
+    .Entryemail ion-icon {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 456px) {
+    .EntryOTP form {
+        position: relative;
+        width: 25rem;
+        height: auto;
+    }
+
+    .EntryOTP h2 {
+        width: 90%;
+    }
+
+    .otpbox input {
+        width: 3rem;
+        font-size: 30px;
+    }
+
+    .EntryOTP text {
+        font-size: 12px;
+    }
+
+    .btnbox input {
+        width: 90%;
+    }
+
+    .Entryemail ion-icon {
+        font-size: 30px;
+    }
+}
+
+
+
+@media screen and (max-width: 456px) {
+    .Resetpass form {
+        position: relative;
+        width: 25rem;
+        height: auto;
+    }
+
+    .Entryemail h2 {
+        width: 90%;
+    }
+
+    .reset_input input {
+        width: 18em;
+        font-size: 15px;
+    }
+
+    .btnbox input {
+        width: 40em;
+    }
+
+    .Resetpass ion-icon {
+        font-size: 30px;
+        top: 45px;
+    }
+}

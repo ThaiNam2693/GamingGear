@@ -1,0 +1,456 @@
+.tablescroll {
+    border-collapse: collapse;
+  }
+  
+.tablescroll {
+      display: flex;
+      flex-flow: column;
+      width: 310px;
+      
+}
+
+
+.sticky th { position: sticky; 
+    top: 0; 
+    border-bottom: 2px solid #4b1212;
+     background: white;}
+
+
+
+.sticky th::after{
+    content:'';
+    width:100%;
+    height: 2px;
+    position: absolute;
+    bottom:0;
+    left:0;
+    background: black;
+}
+.body {
+    flex: 1 1 auto;
+    overflow-x: hidden;
+}
+
+  .shadowred {
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: -7px 0 0 red;
+  }
+
+  .shadowcyan {
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: -7px 0 0 cyan;
+  }
+
+  .shadowpurple {
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: -7px 0 0 purple;
+  }
+
+
+  .cut-text { 
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 110px; 
+    height: 1.2em; 
+    white-space: nowrap;
+  }
+
+  
+
+
+/* ------------------- */
+/* TEMPLATE        -- */
+/* ----------------- */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,900,300);
+
+h1 { font-size: 32px; }
+h2 { font-size: 26px; }
+h3 { font-size: 18px; }
+p { margin: 0 0 15px; line-height: 24px; color: gainsboro; }
+a:hover { color: tomato; }
+
+.container { 
+  max-width: 100%; 
+  height: 100%;
+  margin: 0 auto; 
+  padding: 20px;
+}
+
+/* MAKE IT CUTE ----- */
+.tabs {
+  position: relative;
+  display: flex;
+  min-height: 900px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.tabby-tab {
+  flex: 1;
+}
+
+.tabby-tablabel {
+  display: block;
+  box-sizing: border-box;
+  /* tab content must clear this */
+    height: 40px;
+  
+  padding: 10px;
+  text-align: center;
+  background: white;
+  border-style: groove;
+  cursor: pointer;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  transition: background 0.5s ease;
+  font-size:medium;
+  font-weight: bold;
+  color: black;
+  color: #5D87FF; 
+}
+
+.tabby-tablabel:hover {
+  background: #5D87FF;
+  color: white;
+  border-color: black;
+}
+
+.tabby-content {
+  position: absolute;
+  
+  left: 0; bottom: 0; right: 0;
+  /* clear the tab labels */
+    top: 40px; 
+  
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  background: white;
+  border-bottom-style: groove;
+  border-left-style: groove;
+  border-right-style: groove;
+  
+  transition: 
+    opacity 0.8s ease,
+    transform 0.8s ease   ;
+  
+  /* show/hide */
+    opacity: 0;
+    transform: scale(0.1);
+    transform-origin: top left;
+    overflow: scroll;
+  
+}
+
+.tabby-content img {
+  float: left;
+  margin-right: 20px;
+  border-radius: 8px;
+}
+
+
+/* MAKE IT WORK ----- */
+
+.tabby-tab [type=radio] { display: none; }
+[type=radio]:checked ~ label {
+  background: #5D87FF;
+  border-style: solid;
+  color: white;
+  border-color: black;
+  z-index: 2;
+}
+
+[type=radio]:checked ~ label ~ .tabby-content {
+  z-index: 1;
+  
+  /* show/hide */
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* BREAKPOINTS ----- */
+@media screen and (max-width: 767px) {
+  .tabs { min-height: 400px;}
+}
+
+@media screen and (max-width: 480px) {
+  .tabs { min-height: 580px; }
+  .tabby-tab label { 
+    height: 60px;
+  }
+  .tabby-content { top: 60px; }
+  .tabby-content img {
+    float: none;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+.Header{
+  padding: 10px;
+  color:black;
+  font-weight: bold;
+}
+
+.Title{
+  text-align: center; font-weight: bold;
+                    color: #5D87FF;
+}
+
+.SmallTitle{
+  font-weight: bold;
+                    color: #5D87FF;
+}
+
+.centerTable {
+  margin-left: auto; 
+                    margin-right: auto;
+                    border-spacing: 30px;
+                    border-collapse: collapse;
+}
+
+.centerTable td{
+padding: 10px;
+}
+
+.centerTable tr{
+  border-top: 1pt solid rgb(148, 146, 146);
+}
+
+.DoanhThu td h2{
+color: purple;
+}
+
+.ChiTieu td h2{
+  color: red;
+  }
+
+  .LoiNhuan td h2{
+    color: rgb(37, 185, 37);
+    }
+
+
+    @import "https://fonts.googleapis.com/css?family=Raleway";
+* { box-sizing: border-box; }
+
+
+#contact:hover { background: #5D87FF; }
+#contact:active { background: #5D87FF; }
+
+#contactForm3 { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 50%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-60%);
+  height: 650px;
+  overflow:scroll;
+  -webkit-transform: translate(-50%,-60%)
+  
+}
+
+
+@import "https://fonts.googleapis.com/css?family=Raleway";
+* { box-sizing: border-box; }
+
+
+#contact2:hover  { background: #5D87FF; }
+#contact2:active { background: #5D87FF; }
+
+#contactForm2 { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 50%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  height: 60%;
+  transform: translate(-50%,-60%);
+  -webkit-transform: translate(-50%,-60%);
+  
+}
+
+ #contactFormAddProduct { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 80%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 80%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+}
+
+#contactFormAddCategory { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 50%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 80%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 170px;
+}
+
+#contactFormAddBrand { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 50%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 270px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#contactFormProductInfoEdit { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 80%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 90%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+#contactFormEditCategory { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 50%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 170px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#contactFormBrandEdit { 
+  display: none;
+
+  border: 6px solid #5D87FF; 
+  border-radius: 20px;
+  padding: 2em;
+  width: 70%;
+  background: #fff;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  height: 90%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+i{
+  padding: 5px;
+}
+
+/* Style the button to look like a link */
+.button-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #5D87FF; /* You can change the color to suit your design */
+  text-align: center;
+}
+
+/* Remove default button styles, if any */
+.button-link:focus {
+  outline: none;
+}
+
+.imgStyle{
+  padding:10px;
+  display: block;
+}
+ a{
+  text-decoration: none !important;
+ }
+
+ .divider {
+  border-right: 1px solid #000; /* Adjust the border properties as needed */
+  height: 100%; /* Make the border extend the full height of the div */
+}
+
+.ImportHeader {
+  display: block;
+  /* tab content must clear this */
+    height: 60px;
+  text-align: center;
+  border-style: groove;
+  font-size:medium;
+  font-weight: bold;
+  color: #5D87FF; 
+  background-color: rgb(249, 245, 245);
+}
+
+.ImportPrice{
+  display: block;
+  /* tab content must clear this */
+    height: 40px;
+  text-align: center;
+  border-style: groove;
+  font-size:medium;
+  font-weight: bold;
+  color: #5D87FF; 
+}
+
+.BoxStyle{
+  background-color: white;  box-shadow:  -3px 1px 9px 7px rgba(219,219,219,1);
+}
+

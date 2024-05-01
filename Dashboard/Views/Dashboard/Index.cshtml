@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+}
+
+<!--  Body Wrapper -->
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <!--  Row 1 -->
+            <div class="row">
+                <!-- Completed Orders -->
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row alig n-items-start">
+                                <div class="col-8">
+                                    <h5 class="card-title mb-9 fw-semibold">Completed Orders </h5>
+                                <h4 class="fw-semibold mb-3">@ViewData["CompletedOrder"]</h4>
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                            <i class="fa fa-shopping-cart" style="font-size:20px"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Monthly Earnings -->
+                <div class="col-6 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row alig n-items-start">
+                                <div class="col-8">
+                                    <h5 class="card-title mb-9 fw-semibold"> Monthly Income </h5>
+                                <h4 class="fw-semibold mb-3">@ViewData["TotalIncome"]$</h4>
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-currency-dollar fs-6"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 ">
+                    <div class="card w-100 shadowred">
+                    <div class="card-body p-4" style="overflow-y: auto; height: 700px;">
+                            <div class="mb-4">
+                                <h5 class="card-title fw-semibold mb-4" style="text-align: center; color: red;">OUT OF STOCKS</h5>
+                                <hr>
+                                <div class="table-responsive tablescroll">
+                                    <table class="table text-nowrap mb-0 align-middle sticky ">
+                                        <thead class="text-dark fs-4 ">
+                                            <tr>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0  ">ID</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0 ">Name</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0 text-lg-center ">Quantity</h6>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="body">
+                                        @foreach (var items in ViewBag.LowQuantityProduct)
+                                        {
+                                            <tr>
+                                                <td class="border-bottom-1">
+                                                    <h6 class="fw-semibold mb-0 text-lg-center">@items.ProId</h6>
+                                                </td>
+                                                <td class="border-bottom-0" style="overflow: hidden; width: 50px;">
+                                                    <h6 class="fw-semibold mb-1 cut-text">@items.ProName </h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-1 fw-semibold text-lg-center" style="color: red; ">@items.ProQuan</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <div class="card w-100 shadowcyan">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4" style="text-align: center; color: cyan;">TOP 10 PRODUCTS</h5>
+                            <hr>
+                            <div class="table-responsive tablescroll">
+                                <table class="table text-nowrap mb-0 align-middle sticky ">
+                                    <thead class="text-dark fs-4">
+                                        <tr>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 ">Name</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 text-lg-end ">Sold</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="body">
+                                    @foreach (var pro in ViewBag.Top10Product)
+                                    {
+                                        <tr>
+                                            <td class="border-bottom-1">
+                                                <h6 class="fw-semibold mb-0 item"> <span class="fw-semibold mb-1">@pro.productName</span></h6>
+                                            </td>
+                                            <td class="border-bottom-1">
+                                                <h6 class="fw-semibold mb-0 item text-lg-end">@pro.quantity</h6>
+                                            </td>
+                                        </tr>
+                                    }
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <div class="card w-100 shadowpurple">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4" style="text-align: center; color: purple;">TOP 10 CUSTOMERS</h5>
+                            <hr>
+                            <div class="table-responsive tablescroll">
+                                <table class="table text-nowrap mb-0 align-middle sticky ">
+                                    <thead class="text-dark fs-4">
+                                        <tr>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 ">Name</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0 text-lg-end ">Money Spent</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="body">
+                                    @foreach (var cus in ViewBag.Top10Customer)
+                                    {
+                                        <tr>
+                                            <td class="border-bottom-1">
+                                                <h6 class="fw-semibold mb-0 item"> <span class="fw-semibold mb-1">@cus.Fullname</span></h6>
+                                            </td>
+                                            <td class="border-bottom-1">
+                                                <h6 class="fw-semibold mb-0 item text-lg-end">@cus.TotalPriceSum$</h6>
+                                            </td>
+                                        </tr>
+                                    }                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

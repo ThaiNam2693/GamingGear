@@ -1,0 +1,748 @@
+﻿@using BusinessObject;
+@using Newtonsoft.Json;
+
+@{
+    ViewData["Title"] = "ProductPage";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
+   
+}
+
+<div class="body-wrapper">
+    <div class="container">
+        <div class="container">
+            <h1 class="Header">PRODUCTS MANAGEMENT</h1>
+            <div class="tabs">
+                <div class="tabby-tab">
+                    <input type="radio" id="tab-1" name="tabby-tabs" checked>
+                    <label for="tab-1" class="tabby-tablabel">PRODUCTS</label>
+                    <div class="tabby-content">
+                        <div class="col-12" style="text-align: center;">
+                            <h1 class="Title">PRODUCT IN STOCKS</h1>
+
+                                <button type="button" id="contactAddProduct" class="btn btn-outline-primary m-1">
+                                    <i class="fa-solid fa-plus"></i> Add Product
+                                </button>
+                            
+                            <button type="button" id="contact" class="btn btn-outline-primary m-1">Categories</button>
+
+                            <button type="button" id="contact2" class="btn btn-outline-primary m-1">Brands</button>
+                        </div>
+                        @if (Message != null && Message != "")
+                        {
+                            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                <strong>Success!</strong> @Message.
+                            </div>
+                        }
+                        <button class="btn btn-primary" onclick="toggleDivs()" style="padding:7px; margin-bottom:7px " id="toggleButton">Show Disable Products </button>
+                        <div id="div1">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var items in ViewBag.ProductList)
+                                    {
+
+                                        @if (items.ProQuan == 0)
+                                        {
+                                            <tr style="background-color: #FFC0CB;">
+                                                <td>@items.ProId</td>
+                                                <td>@items.ProName</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.CatId;
+                                                        var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.BrandId;
+                                                        var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.ProPrice</td>
+                                                <td>@items.ProQuan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.ProId })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@items.ProId</td>
+                                                <td>@items.ProName</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.CatId;
+                                                        var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.BrandId;
+                                                        var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.ProPrice</td>
+                                                <td>@items.ProQuan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.ProId })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div id="div2" style="display:none">
+                            <table id="example4" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var items in ViewBag.ProductListDisable)
+                                    {
+
+                                        @if (items.ProQuan == 0)
+                                        {
+                                            <tr style="background-color: #FFC0CB;">
+                                                <td>@items.ProId</td>
+                                                <td>@items.ProName</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.CatId;
+                                                        var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.BrandId;
+                                                        var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.ProPrice</td>
+                                                <td>@items.ProQuan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.ProId })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@items.ProId</td>
+                                                <td>@items.ProName</td>
+                                                <td>
+                                                    @{
+                                                        int categoryId = items.CatId;
+                                                        var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                        string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                                    }
+                                                    @categoryName
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        int brandyId = items.BrandId;
+                                                        var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                        string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                                    }
+                                                    @BrandName
+
+                                                </td>
+                                                <td>$@items.ProPrice</td>
+                                                <td>@items.ProQuan</td>
+
+                                                <td style="color:#5D87FF;">
+                                                    <a href="@Url.Action("ProductDetailPage", "Dashboard", new { id = items.ProId })">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Beginning Of Categories Pop-up-->
+                        <div id="contactForm3" class="col-3" style="height:650px;">
+                            <div class="col-12" style="text-align: center; padding: 10px;">
+                                <h1 class="Title">CATEGORIES</h1>
+                                    <button type="button" id="contactAddCategory" class="btn btn-outline-primary m-1">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Add
+                                    </button>                         
+                            </div>
+                            <div style="overflow:scroll; height: 70%">
+                            <table id="example2" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                            <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                    <tbody style=" max-height: 200px; overflow:scroll;">
+                                    @foreach (var items in ViewBag.CategoryList)
+                                    {
+                                        <tr>
+                                                <td>@items.CatId</td>
+                                                <td>@items.CatName</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.IsAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+                                            <td>
+                                                        <!--Edit-->
+                                                    <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-CatEdit="@items.CatId" onclick="EditCat(this)"
+                                                           id="contactCategoryEdit"></i>
+                           
+                                                    @if (items.IsAvailable == true)
+                                                    {
+                                                        <a onclick="return confirm('Disable @items.CatName will also disable all product with this category, went ahead?');" href="/Dashboard/DisableCategory/@items.CatId" style="text-decoration: none;"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                    <a onclick="return confirm('You are about to enable this category, went ahead?');" href="/Dashboard/EnableCategory/@items.CatId" style="text-decoration: none;"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                    }
+                                                </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            </div>
+                            <!--Add Category-->
+                            <div id="contactFormAddCategory" class="col-8">
+                                <form method="POST" action="/Dashboard/AddCategory" id="" class="" onsubmit="return CheckCateAdd()"  enctype="multipart/form-data">
+                                    <!--Add Action Here for Cleny-->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-group">Category Name </label>
+                                                <input type="text" class="form-control" name="CatName" id="Cat_Name"
+                                                       placeholder="Insert Category Name">
+                                                <div style="color:red" id="ErrorCategoryName"></div>
+                                                <label class="form-group">Category Keyword </label>
+                                                <input type="text" class="form-control" name="Keyword" id="keyword"
+                                                       placeholder="Insert Product Keyword">
+                                                <div style="color:red" id="ErrorCategoryKeyword"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align: center; padding-top: 20px;">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                            <input type="reset" value="Reset" class="btn btn-secondary">
+                                            <div class="submitting"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--Add Category-->
+                            <!--Edit Category-->
+                            <div id="contactFormEditCategory" class="col-8">
+                                <form method="POST" action="/Dashboard/UpdateCategory" class="UpdateCategory" onsubmit="return CheckEditCategory()">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="Cat_Name_edit" name="CatName">
+                                                <input type="hidden" class="form-control" id="Cat_ID_edit" name="CatId">
+                                                <div style="color:red" id="ErrorCategoryNameEdit"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align: center; padding-top: 20px;">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                            <input type="reset" value="Reset" class="btn btn-secondary">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--Edit Category-->
+                        </div>
+
+                        <!--End Of Categories Pop-up-->
+                        <!--Beginning Of Brand Pop-up-->
+
+                        <div id="contactForm2" class="col-3">
+                            <div class="col-12" style="text-align: center; padding: 10px;">
+                                <h1 class="Title">BRANDS</h1>
+                                    <button type="button" class="btn btn-outline-primary m-1" id="contactAddBrand">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Add
+                                    </button>
+                               
+                            </div>
+                            <div style="overflow:scroll; height: 70%">
+                                <table id="example3" class="table table-striped" style="width:100%; overflow-y:scroll;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var items in ViewBag.BrandList)
+                                        {
+                                            <tr>
+                                                <td>@items.BrandId</td>
+                                                <td>@items.BrandName</td>
+                                                @{
+                                                    string status = "";
+                                                    if (items.IsAvailable == true)
+                                                    {
+                                                        status = "Enable";
+                                                        <td style="color: green">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        status = "Disable";
+                                                        <td style="color: red">
+                                                            @status
+                                                        </td>
+                                                    }
+                                                }
+                                                <td>
+                                                        <!--Edit-->
+                                                    <i class="fa-solid fa-pen" style="color: rgb(255, 200, 0)" type="button" data-brandedit="@items.BrandId" onclick="EditBrand(this)"
+                                                           id="contactBrandEdit"></i>
+
+
+                                                        <!--Delete-->
+                                                    
+                                                    @if (items.IsAvailable == true)
+                                                    {
+                                                    <!--Delete-->
+                                                        <a onclick="return confirm('Disable @items.BrandName will also disable all product with this category, went ahead?');" href="/Dashboard/DisableBrand/@items.BrandId"><i class="fa-solid fa-trash" style="color: red;"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a onclick="return confirm('You are about to enable this brand, went ahead?');" href="/Dashboard/EnableBrand/@items.BrandId"><i class="fa-solid fa-lock-open" style="color: green;"></i></a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--Add Brand-->
+                            <div id="contactFormAddBrand" class="col-8" >
+                                <form method="POST" action="/Dashboard/AddBrand" id="" class="" enctype="multipart/form-data" onsubmit="return CheckBrandAdd()">
+                                    <!--Add Action Here for Cleny-->
+                                    <div class="row">
+                                        <div class="col-md-12" style="padding-bottom: 20px;">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="BrandName" id="Brand_Name"
+                                                       placeholder="Insert Brand Name">
+                                                <div style="color:red" id="ErrorBrandName"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group" style="text-align: center; padding: 5px;">
+                                                <h3 style="color: #5D87FF;">Brand Logo</h3>
+                                                <input type="file" class="form-control" name="BrandLogo" id="Brand_Logo"
+                                                       placeholder="Insert Brand Logo">
+                                                <div style="color:red" id="ErrorBrandLogo"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align: center; padding-top: 20px;">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                            <input type="reset" value="Reset" class="btn btn-secondary">
+                                            <div class="submitting"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--Add Brand-->
+                            <!--Edit Brand-->
+                            <div id="contactFormBrandEdit" class="col-8">
+                                <form method="POST" action="/Dashboard/UpdateBrand" class="UpdateBrand" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-md-12" style="padding-bottom: 20px;">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="BrandName" id="Brand_Name_edit">
+                                                <input type="hidden" class="form-control" name="BrandId" id="Brand_ID_edit">
+                                                <div style="color:red" id="ErrorBrandNameEdit"></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <h3 style="color: #5D87FF; text-align: center;">Brand Logo</h3>
+                                            <div style="display: flex;
+                                            justify-content: center;
+                                            align-items: center;">
+                                                <img src="" alt="Smiley face" class="imgStyle"
+                                                     width="100" height="100" title="Original Image" id="brand_img_edit" />
+                                                <input type="hidden" value="" id="Brand_Image_tmp" />
+                                                <div style="color:red" id="ErrorBrandLogoEdit"></div>
+                                            </div>
+
+                                            <div>
+                                                <input class="form-control" type="file" name="BrandLogo">
+                                                <label style="color: red;">
+                                                    Input a new file to change
+                                                    the image
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align: center; padding-top: 20px;">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                            <input type="reset" value="Reset" class="btn btn-secondary">
+                                            <div class="submitting"></div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!--Edit Brand-->
+                        </div>
+
+                        <!--End Of Brand Pop-up-->
+                        <!--Add Product-->
+                        <div id="contactFormAddProduct" class="col-8">
+                            <div class="col-12" style="text-align: center; padding: 10px;">
+                                <h1 class="Title">ADD PRODUCT</h1>
+                            </div>
+                            <form method="POST" action="/Dashboard/AddProduct" id="AddForm" class="AddForm addProduct"
+                                  enctype="multipart/form-data">
+                                <div class="row">
+
+                                    <!--Product ID -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label" for="name">Product ID</label>
+                                            <input type="text" class="form-control" name="ProId" id="pro_id" placeholder="ID" readonly value="">
+                                        </div>
+                                    </div>
+                                    <!--Product ID -->
+                                    <!--Product Name -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label" for="pro_name">Product Name</label>
+                                            <input type="text" class="form-control" name="ProName" id="pro_name"
+                                                   placeholder="Product Name">
+                                            <p style="color:red"></p>
+                                        </div>
+                                    </div>
+                                    <!--Product Name -->
+                                    <!--Price -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label" for="pro_price">Price</label>
+                                            <input type="text" class="form-control" name="ProPrice" id="pro_price" placeholder="Price">
+                                            <p style="color:red"></p>
+                                        </div>
+                                    </div>
+                                    <!--Price -->
+                                    <!--Categories -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label" for="category">Category</label>
+
+                                            <select name="CatId" class="form-control" id="cate_id">
+                                                @{
+                                                    int value_cate = 1; // Start value
+
+                                                    // Assuming 'items' is a List<Brand> containing your brand information
+                                                    foreach (var item in ViewBag.CategoryList)
+                                                    {
+                                                        <option value="@value_cate">@item.CatName</option>
+                                                        value_cate++; // Increment the value
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--Categories -->
+                                    <!--Brands -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label" for="brand">Brand</label>
+
+                                            <select name="BrandId" class="form-control" id="brand_id">
+                                                @{
+                                                    int value_brand = 1; // Start value
+
+                                                    // Assuming 'items' is a List<Brand> containing your brand information
+                                                    foreach (var item in ViewBag.BrandList)
+                                                    {
+                                                        <option value="@value_brand">@item.BrandName</option>
+                                                        value_brand++; // Increment the value
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--Brands -->
+                                    <!--Add Images -->
+                                    <div class="col-md-6 ">
+                                        <p style="color:red" id="ErrorNoImage"></p>
+                                        <div id="room_fileds_image">
+                                            <div class="content">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <input class="btn btn-outline-primary m-1" type="button" id="more_fields"
+                                               onclick="add_fieldsImage();" value="Add new Image" />
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <!--Add Images -->
+                                        <!--Add Attribute-->
+                                        <p style="color:red" id="ErrorNoAttribute"></p>
+                                        <div id="room_fileds">
+                                            <div class="content">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <input class="btn btn-outline-primary m-1" type="button" id="more_fields" name="AttributeButton"
+                                               onclick="add_fieldsDetails();" value="Add new Details" />
+                                    </div>
+                                    <script>
+                                        function deleteRow(button) {
+                                            var row = button.closest('.row'); // Find the closest parent row element
+                                            row.remove(); // Remove the row from the DOM
+                                        }
+                                    </script>
+                                    <!--Add Attribute-->
+                                    <!--Description -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label" for="#">Description</label>
+                                            <textarea name="ProDes" class="form-control" id="pro_des" cols="30" rows="10"
+                                                      placeholder="Description"></textarea>
+                                            <p style="color:red"></p>
+                                        </div>
+                                    </div>
+                                    <!--Description -->
+
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="text-align: center; padding-top: 20px;">
+                                            <input type="submit" value="Submit" class="btn btn-primary">
+                                            <input type="reset" value="Reset" class="btn btn-secondary">
+                                            <div class="submitting"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!--Add Product -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var room = 0;
+    function add_fieldsDetails() {
+        room++;
+        var objTo = document.getElementById('room_fileds')
+        var divtest = document.createElement("div");
+        divtest.innerHTML = `
+                     <div class="row">
+                   <div class="col-md-3">
+                   <div class="form-group">
+                 <label for="attname">Attribute</label>
+                   <input class="form-control feature" type="text" name="feature" value="" id="attname" >
+                       <p style="color:red"></p>
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                 <label for="attDes">Description</label>
+                  <input class="form-control description" type="text" name="description" value="" id="attDes" >
+                      <p style="color:red"></p>
+                 </div>
+                </div>
+                <div class="col-md-3" style="margin-top:21px">
+                <button class="btn btn-danger delete-button"  style="button" onclick="deleteRow(this)">X</button>
+                </div>
+                </div>
+                `;
+
+        objTo.appendChild(divtest)
+    }
+</script>
+<script>
+
+    function add_fieldsImage() {
+        var objTo = document.getElementById('room_fileds_image');
+        var divtest = document.createElement("div");
+        var fileInput = document.createElement("input");
+        var redParagraph = document.createElement("p"); // Create the <p> element
+        var deleteButton = document.createElement("button");
+
+
+        fileInput.className = "form-control imgFile";
+        fileInput.type = "file";
+        fileInput.name = "imgFile";
+
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "btn btn-danger";
+        deleteButton.style.margin = "5px"; // Add padding here
+        deleteButton.onclick = function () {
+            // Remove the parent div when the delete button is clicked
+            objTo.removeChild(divtest);
+        };
+
+        redParagraph.style.color = "red"; // Set the text color to red
+        // You can set the text content of the <p> element here if needed
+
+        divtest.innerHTML = '<label>Image </label>';
+        divtest.appendChild(fileInput);
+        divtest.appendChild(redParagraph);
+        divtest.appendChild(deleteButton);
+
+
+        objTo.appendChild(divtest);
+    }
+</script>
+<script>
+    function toggleDivs() {
+        var div1 = document.getElementById("div1");
+        var div2 = document.getElementById("div2");
+        var toggleButton = document.getElementById("toggleButton");
+
+        if (div1.style.display === "block" || div1.style.display === "") {
+            div1.style.display = "none";
+            div2.style.display = "block";
+            toggleButton.innerHTML = 'Show Normal Product';
+        } else {
+            div1.style.display = "block";
+            div2.style.display = "none";
+            toggleButton.innerHTML = 'Show Disable Product';
+        }
+    }
+</script>
+<script>
+    new DataTable('#example', {
+        initComplete: function () {
+            this.api()
+                .columns()
+                .every(function (index) {
+                    let column = this;
+
+                    // Check if this is column 2 or 3
+                    if (index === 2 || index === 3) {
+                        // Create select element
+                        let select = document.createElement('select');
+
+                        // Add the "All" option
+                        select.add(new Option('All', ''));
+
+                        // Replace the footer with the select element
+                        column.footer().replaceChildren(select);
+
+                        // Apply a listener for user changes in value
+                        select.addEventListener('change', function () {
+                            var val = DataTable.util.escapeRegex(select.value);
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                        // Add the list of options
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.add(new Option(d));
+                            });
+                    }
+                });
+        }
+    });
+
+
+    </script>
+<script src="~/assets/js/productpage.js"></script>
+<script src="~/assets/js/jsaddproduct.js"></script>

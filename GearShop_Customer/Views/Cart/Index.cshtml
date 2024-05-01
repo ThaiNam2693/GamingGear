@@ -1,0 +1,129 @@
+﻿@using Newtonsoft.Json;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+    List<Tuple<string, int, int>> list = ViewBag.imgStatus as List<Tuple<string, int, int>>;
+    decimal allPrice = 0;
+    var Username = JsonConvert.DeserializeObject<BusinessObject.CustomerObject>(Context.Session.GetString("Session")).Username;
+}
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+<link href="~/css/cartalertstyle.css" rel="stylesheet" />
+<div class="alert hide" id="alert-message-checkout">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg" id="msg-alert-msg"></span>
+    <div class="close-btn" id="close-btn-alert">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
+                <span class="breadcrumb-item active">Shopping Cart</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Cart Start -->
+<div class="container-fluid">
+    @if (ViewBag.ListCart.Count > 0)
+    {
+
+
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        @{
+                            int index = 0;
+                        }
+                        @foreach (var item in ViewBag.ListCart)
+                        {
+                            <tr id="itemCart-@item.ProId">
+                                <td class="text-left">
+                                    <img src="@list[index].Item1" alt="" style="width: 50px;">
+
+                                    @if (@list[index].Item3 != 0)
+                                    {
+                                        <a style="text-decoration:none;color:red" href="/Product/ShopDetail?pro_id=@item.ProId"> @item.ProName</a>
+                                    }
+                                    else
+                                    {
+                                        <a style="text-decoration:none;color:black" href="/Product/ShopDetail?pro_id=@item.ProId"> @item.ProName</a>
+
+                                    }
+                                </td>
+                                <td class="align-middle">$@item.Price</td>
+                                <td class="align-middle">
+                                    <div class="input-group  mx-auto" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus" onclick="updateCartQuantity('@item.ProId', '@item.Username', -1)">-</button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center " id="num-@item.ProId" onkeydown="return event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode ==8" value="@item.Quantity" onblur="updateCartQuantity('@item.ProId', '@item.Username',null)">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus" onclick="updateCartQuantity('@item.ProId', '@item.Username', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                @{
+                                    var tp = @item.Quantity * @item.Price;
+                                    allPrice += tp;
+                                    tp = Math.Round(tp, 2);
+                                }
+                                <td class="align-middle" id="item-price-@item.ProId">
+                                    $@tp
+                                    <input type="hidden" value="@list[index].Item3" class="status-Stock">
+                                </td>
+
+                                <td class="align-middle"><button class="btn btn-sm btn-danger" data-us="@item.Username" data-pro_id="@item.ProId" onclick="DeleteCart(this)"><i class="fa fa-times"></i></button></td>
+
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            @{
+                                allPrice = Math.Round(allPrice, 2);
+                            }
+                            <h5 id="bill-cart">$@allPrice</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="SubmitCheckOut()">Proceed To Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="col-12 text-center">
+            <img src="~/source_img/advertising_img/zyro-image1.png" width="25%" height="25%">
+            <p style="font-size: 25px; color: black">
+                Your Cart has empty<br>
+                Click <a href="/Product/Shop">here</a> to shopping now
+            </p>
+        </div>
+    }
+</div>
+<!-- Cart End -->

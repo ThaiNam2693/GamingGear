@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "MyAddress";
+    Layout = "~/Views/Shared/_Layout_Main.cshtml";
+}
+
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Account/MyAccount">My Account</a>
+                <span class="breadcrumb-item active">Account's Address</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Contact Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            My
+            Account
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+        <div class="col-lg-4 mb-5">
+            <div class="contact-form bg-light p-30">
+                <div id="success"></div>
+                <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    <img style="border-radius: 50%;" alt=""
+                         src="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=70&amp;d=mm&amp;r=g"
+                         srcset="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=140&amp;d=mm&amp;r=g 2x"
+                         height="70" width="70" decoding="async">
+                    <p style="font-size: 20px;">Personal Account</p>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/MyAccount" style="text-decoration: none;">
+                            <i class="fa fa-user-circle " style="color: black; margin-right: 10px;"></i>Account
+                            information
+                        </a>
+
+                    </div>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/ChangePassword" style="text-decoration: none;">
+                            <i class="fa fa-key" style="color: black; margin-right: 10px;"></i>Change Password
+                        </a>
+
+                    </div>
+
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/ViewOrder" style="text-decoration: none;">
+                            <i class="fa fa-gift" style="color: black; margin-right: 10px;"></i>Your Order
+                        </a>
+
+                    </div>
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" style="background-color: #ffcb0d" href="/Account/MyAddress" style="text-decoration: none;">
+                            <i class="fa fa-home" style="color: black; margin-right: 10px;"></i>Address
+                        </a>
+
+                    </div>
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/LogOut" style="text-decoration: none;">
+                            <i class="fa fa-sign-out-alt" style="color: black; margin-right: 10px;"></i>Log Out
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8 mb-5">
+
+            <div class="bg-light p-30 mb-3 " style="height: 100%;">
+                <div class="row">
+                    @if (ViewBag.ListAddress != null)
+                    {
+                        <div class="col-md-12 form-group ">
+                            @foreach (var item in ViewBag.ListAddress)
+                            {
+                                <label>@item.Fullname | @item.PhoneNum</label>
+                                <input type="button" value="Update" data-fullname="@item.Fullname" data-ID="@item.ID" data-phonenum="@item.PhoneNum" data-address="@item.AddressInformation" onclick="UpdateAddress(this)" id="shipto" data-toggle="collapse" @* data-target="#update-address" *@>
+                                <input type="button" value="Delete" data-ID="@item.ID" onclick="DeleteAddress(this)">
+                                <input class="form-control" type="text" name="accAddress" value="@item.AddressInformation" readonly style="background-color: #fff;">
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                    <div class="hide">
+                        <p style="color:red">
+                            You dont have any address. Please enter new address here!
+                        </p>
+                    </div>
+                    }
+                    
+                    <div class="col-md-12 ">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="addNewAddress">
+                            <label class="custom-control-label" for="addNewAddress" data-toggle="collapse" data-target="#addnew-address">Add new address.</label>
+                        </div>
+                    </div>
+                    <form method="post" class="update_address_form" action="/Account/UpdateAddress">
+                        <div class="collapse mb-5 " id="update-address" data-addressID ="">
+                            <div class="bg-light p-30">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label>Fullname</label>
+                                        <input class="form-control" type="text" name="Fullname" placeholder="Enter your full name" id="fullname_update">
+                                        <p style="color:red; text-align:left"></p>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Mobile No</label>
+                                        <input class="form-control" type="text" name="PhoneNum" placeholder="Enter your cell phone" id="phonenum_update">
+                                        <p style="color:red; text-align:left"></p>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Address</label>
+                                        <input class="form-control" type="text" name="AddressInformation" placeholder="Enter your address" id="address_update">
+                                        <p style="color:red; text-align:left"></p>
+                                        <input type="hidden" id="ID_update" name="ID" />
+                                    </div>
+                                    <div class="col-md-12 form-group" style="  text-align: center;">
+                                        <input class="button-32" role="button" type="submit" value="Update" name="btnUpdate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="post" class="add_address_form" action="/Account/AddAddress">
+                        <div class="collapse mb-5" id="addnew-address">
+                            <h3 class="section-title text-uppercase mb-3">
+                                <span style="margin-left: 39%;">Add New Address</span>
+                            </h3>
+                            <div class="bg-light p-30">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label>Full Name</label>
+                                        <input class="form-control" type="text" name="Fullname" id="fullname_address_add">
+                                        <p style="color:red; text-align:left"></p>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label>Mobile No</label>
+                                        <input class="form-control" type="text" name="PhoneNum" id="phone_address_add">
+                                        <p style="color:red; text-align:left"></p>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Address</label>
+                                        <input class="form-control" type="text" name="AddressInformation" id="address_address_add">
+                                        <p style="color:red; text-align:left"></p>
+                                    </div>
+                                    <div>@ViewBag.Message</div>
+                                    <div class="col-md-12 form-group" style="  text-align: center;">
+                                        <input class="button-32" role="button" type="submit" value="Add" name="btnAddnewAddress">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+<!-- Contact End -->
+<script src="~/js/addressvalidate.js"></script>

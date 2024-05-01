@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>404 Error</title>
+    <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #eaeaea;
+        }
+
+        h1 {
+            color: #767676;
+            margin-top: 1px;
+            font-size: 150px;
+            margin-bottom: 1px;
+        }
+
+        h2 {
+            color: #999696;
+        }
+
+
+
+        .button {
+            display: inline-block;
+            background-color: #8f8f8f;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+            .button:hover {
+                display: inline-block;
+                background-color: rgb(169, 158, 158);
+                color: black;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+                margin-top: 20px;
+            }
+
+
+
+        p {
+            font-size: 17px;
+            color: #676666;
+            margin-left: 20px;
+        }
+
+        img {
+            width: 250px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="circle_1">
+            <img src="~/source_img/advertising_img/zyro-image1.png" alt="Page Not Found">
+        </div>
+
+        <h1>404</h1>
+        <h2>@ViewBag.ErrorMessage</h2>
+        <p>The page you are looking for doesn't exits or an other error occurrend. <br>Go back, or head over to GearShop to choose a new direction </p>
+
+
+        <a href="/Dashboard" class="button">Home Page</a>
+
+    </div>
+</body>
+</html>

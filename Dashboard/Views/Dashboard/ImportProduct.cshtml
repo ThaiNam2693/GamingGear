@@ -1,0 +1,524 @@
+﻿@using BusinessObject;
+
+@{
+    ViewData["Title"] = "ImportProduct";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div>
+
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        <div class="container">
+            <div class="container">
+
+                <h1 class="Header">IMPORT PRODUCTS</h1>
+                <hr>
+                <div class="flex-row d-flex col-12 flex-between-center">
+                    <div class=" flex-grow-1 p-4 me-4 BoxStyle visible" id="div1">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                OUT OF STOCKS
+                            </h1>
+                        </div>
+                        <hr style="border: 3px solid black;">
+                         <table id="example" class="display" style="width:100%">
+                            <thead style="">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody style="max-height: 200px; overflow-y: scroll;">
+
+                                @foreach (var items in ViewBag.LowQuantityProduct)
+                                {
+                                    <tr>
+                                        <td>@items.ProId</td>
+                                        <td>@items.ProName</td>
+                                        <td>$@items.ProPrice</td>
+                                        <td>
+                                            @{
+                                                int brandyId = items.BrandId;
+                                                var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                            }
+                                            @BrandName
+                                        </td>
+                                        <td>
+                                            @{
+                                                int categoryId = items.CatId;
+                                                var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <th>@items.ProQuan</th>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <hr style="border: 3px solid black;">
+                    </div>
+
+                    <div class=" flex-grow-1 p-4 me-4 BoxStyle " style="display:none" id="div2">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                PRODUCTS
+                            </h1>
+                        </div>
+                        <hr style="border: 3px solid black;">
+                        <table id="example2" class="display" style="width:100%">
+                            <thead style="">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody style="max-height: 200px; overflow-y: scroll;">
+
+                                @foreach (var items in ViewBag.NormalProduct)
+                                {
+                                    <tr>
+                                        <td>@items.ProId</td>
+                                        <td>@items.ProName</td>
+                                        <td>$@items.ProPrice</td>
+                                        <td>
+                                            @{
+                                                int brandyId = items.BrandId;
+                                                var brandList = ViewBag.BrandList as List<BrandObject>;
+                                                string BrandName = brandList?.FirstOrDefault(c => c.BrandId == brandyId)?.BrandName;
+                                            }
+                                            @BrandName
+                                        </td>
+                                        <td>
+                                            @{
+                                                int categoryId = items.CatId;
+                                                var categoryList = ViewBag.CategoryList as List<CategoryObject>;
+                                                string categoryName = categoryList?.FirstOrDefault(c => c.CatId == categoryId)?.CatName;
+                                            }
+                                            @categoryName
+                                        </td>
+                                        <th>@items.ProQuan</th>
+                                        <td>
+                                            <button class="add-to-cart btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th> </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <hr style="border: 3px solid black;">
+                    </div>
+                    <div class=" col-7 p-4 BoxStyle">
+                        <div class="row">
+                            <h1 class="ImportHeader col-md-12"
+                                style="border-style: none; font-size: x-large; padding-top: 20px; ">
+                                IMPORT PRODUCTS
+                            </h1>
+                            <div class="col-md-12 " style="text-align: center;">
+                                <button class="btn btn-primary" onclick="toggleDivs()"
+                                        style="padding: 10px; margin-top: 20px;" id="toggleButton">
+                                    <i class="fa-solid fa-cart-shopping"></i> Show Normal Products
+                                </button>
+                            </div>
+                        </div>
+                        <h1 class="ImportPrice col-md-5 offset-md-7" id="totalCartPrice"
+                            style="border-style: none; font-size: large; padding-top: 5px; color: red; margin-bottom: -10px;">
+                            Total Price: $0
+                        </h1>
+                        <form id="cartForm" action="/Dashboard/GetImportProduct" method="post">
+                            <hr style="border: 3px solid black;">
+                            <input type="hidden" id="totalCartPriceNumber" name="totalCartPriceNumber">
+                            <div style="width: 100%">
+                                <table id="cart" class="table table-striped"
+                                       style=" background-color: white;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>By Quantity</th>
+                                            <th>Quantity</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr style="border: 3px solid black;">
+                            <div class="row">
+                                <div class="col-md-12 " style="text-align: center;">
+                                    <input type="submit" value="CHECKOUT" class="btn btn-primary"
+                                           style="padding: 10px; margin: 10px;" id="Checkoutbutton">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    // Get references to the tbody and submit button
+    const tbody = document.querySelector("#cart tbody");
+    const submitButton = document.querySelector('#Checkoutbutton');
+    function updateSubmitButtonVisibility() {
+        if (tbody.rows.length === 0) {
+            submitButton.style.display = "none"; // Hide the submit button
+        } else {
+            submitButton.style.display = ""; // Show the submit button
+        }
+    }
+
+    // Call the function initially to set the initial visibility
+    updateSubmitButtonVisibility();
+</script>
+
+<script>
+    // Define an array to store cart items
+    const cartItems = [];
+
+    // Function to add a product to the cart
+    function addToCart(productID, productName, productPrice) {
+        // Check if the product is already in the cart
+        const existingItem = cartItems.find((item) => item.ID === productID);
+
+        if (existingItem) {
+            // If the product is already in the cart, increase its quantity
+            existingItem.quantity += 1;
+        } else {
+            // If it's not in the cart, add it as a new item with quantity 1
+            const newItem = {
+                ID: productID,
+                name: productName,
+                price: productPrice,
+                quantity: 1
+            };
+            cartItems.push(newItem);
+        }
+
+        // Call a function to update the cart display
+        displayCart();
+    }
+
+    // Function to display the cart with quantity and total price
+    function displayCart() {
+        const cartTable = document.getElementById("cart").getElementsByTagName("tbody")[0];
+        cartTable.innerHTML = "";
+
+        cartItems.forEach((item, index) => {
+            const row = cartTable.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell5 = row.insertCell(3); // Cell for Quantity
+            const cell4 = row.insertCell(4); // Cell for Total Price
+            const cell6 = row.insertCell(5); // Cell for Remove button
+
+            cell1.textContent = item.ID;
+            cell2.textContent = item.name;
+            const priceInput = createPriceInput(index, item.price);
+            cell3.innerHTML = "";
+            cell3.appendChild(priceInput);
+            function updateProductPrice(index, newPrice) {
+                if (index >= 0 && index < cartItems.length) {
+                    cartItems[index].price = parseFloat(newPrice);
+                    displayCart(); // Refresh the cart display after updating the price
+                }
+            }
+
+            // Function to create a number input field for updating the price
+            function createPriceInput(index, currentPrice) {
+                const priceInput = document.createElement("input");
+                priceInput.type = "number";
+                priceInput.value = currentPrice;
+                priceInput.step = "0.01"; // Set the step to control decimal places
+                priceInput.size = "5";
+                priceInput.style.width = "60px"; // Set the width directly
+                priceInput.addEventListener("blur", function () {
+                    const inputValue = parseFloat(priceInput.value);
+                    if (inputValue <= 0) {
+                        priceInput.value = currentPrice; // Revert to the original value
+                    } else {
+                        updateProductPrice(index, inputValue);
+                    }
+                });
+                return priceInput;
+            }
+
+            // ... (your existing code)
+
+
+
+            // Quantity buttons
+            const quantityWrapper = document.createElement("div");
+            quantityWrapper.classList.add("quantity-wrapper");
+
+            // Add the flex styles
+            quantityWrapper.style.display = "flex";
+            quantityWrapper.style.flexDirection = "row";
+
+            const decreaseButton = document.createElement("button");
+            decreaseButton.innerHTML = '-';
+            decreaseButton.classList.add("btn", "btn-primary");
+            decreaseButton.style.setProperty('--bs-btn-padding-x', '7px');
+            decreaseButton.style.setProperty('--bs-btn-padding-y', '7px');
+            decreaseButton.type = "button";
+            decreaseButton.addEventListener("click", () => {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                    displayCart();
+                }
+            });
+
+            const quantityText = document.createElement("span");
+            quantityText.textContent = item.quantity;
+            quantityText.style.marginTop = "5px";
+            quantityText.style.marginRight = "10px";
+            quantityText.style.marginLeft = "10px";
+            quantityText.style.fontWeight = "bold"; // Make the text bold
+
+            const increaseButton = document.createElement("button");
+            increaseButton.innerHTML = '+';
+            increaseButton.classList.add("btn", "btn-primary");
+            increaseButton.style.setProperty('--bs-btn-padding-x', '7px');
+            increaseButton.style.setProperty('--bs-btn-padding-y', '7px');
+            increaseButton.addEventListener("click", () => {
+                item.quantity += 1;
+                displayCart();
+            });
+
+            quantityWrapper.appendChild(decreaseButton);
+            quantityWrapper.appendChild(quantityText);
+            quantityWrapper.appendChild(increaseButton);
+
+            cell4.appendChild(quantityWrapper);
+
+            const totalItemPrice = item.price * item.quantity;
+            cell5.textContent = `$${totalItemPrice.toFixed(2)}`;
+
+            // Create a "Remove" button
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "X";
+            removeButton.classList.add("btn", "btn-danger");
+            // Set type="button" to prevent form submission
+            removeButton.type = "button";
+            // Use a separate function to handle removal and pass the index
+            removeButton.addEventListener("click", () => {
+                removeProduct(index);
+            });
+
+            cell6.appendChild(removeButton);
+
+
+            const hiddenIDInput = document.createElement("input");
+            hiddenIDInput.type = "hidden";
+            hiddenIDInput.name = "pro_id"; // Use an array to store multiple products
+            hiddenIDInput.value = item.ID;
+
+            const hiddenNameInput = document.createElement("input");
+            hiddenNameInput.type = "hidden";
+            hiddenNameInput.name = "pro_name"; // Use an array to store multiple products
+            hiddenNameInput.value = item.name;
+
+
+            const hiddenPriceInput = document.createElement("input");
+            hiddenPriceInput.type = "hidden";
+            hiddenPriceInput.name = "price"; // Use an array to store multiple products
+            hiddenPriceInput.value = totalItemPrice;
+
+            const hiddenQuantityInput = document.createElement("input");
+            hiddenQuantityInput.type = "hidden";
+            hiddenQuantityInput.name = "amount"; // Use an array to store multiple products
+            hiddenQuantityInput.value = item.quantity;
+
+            // Append the hidden inputs to the cell
+            cell1.appendChild(hiddenIDInput);
+            cell2.appendChild(hiddenNameInput);
+            cell5.appendChild(hiddenPriceInput);
+            cell4.appendChild(hiddenQuantityInput);
+
+            // Calculate and display the total price based on quantity
+
+        });
+        // Calculate and display the total cart price outside of the loop
+        let totalCartPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalCartPriceElement = document.getElementById("totalCartPrice");
+        totalCartPriceElement.textContent = `Total Price: $${totalCartPrice.toFixed(2)}`;
+
+        const totalCartPriceElement2 = document.getElementById("totalCartPriceNumber");
+        totalCartPriceElement2.value = totalCartPrice;
+        updateSubmitButtonVisibility();
+    }
+
+    // Add a function to remove a product by index
+    function removeProduct(index) {
+        if (index >= 0 && index < cartItems.length) {
+            cartItems.splice(index, 1);
+            displayCart(); // Refresh the cart display after removal
+        }
+    }
+    // Add event listeners to "Add to Cart" buttons
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productRow = button.parentElement.parentElement;
+            const productID = productRow.querySelector("td:nth-child(1)").textContent;
+            const productName = productRow.querySelector("td:nth-child(2)").textContent;
+            const productPrice = parseFloat(productRow.querySelector("td:nth-child(3)").textContent.split("$")[1]);
+            addToCart(productID, productName, productPrice);
+        });
+    });
+
+    // Call the initial cart display
+    displayCart();
+    function initializeDataTable1() {
+        new DataTable('#example', {
+            initComplete: function () {
+                this.api()
+                    .columns()
+                    .every(function (index) {
+                        let column = this;
+
+                        // Check if this is column 2 or 3
+                        if (index === 3 || index === 4) {
+                            // Create select element
+                            let select = document.createElement('select');
+
+                            // Add the "All" option
+                            select.add(new Option('All', ''));
+
+                            // Replace the footer with the select element
+                            column.footer().replaceChildren(select);
+
+                            // Apply a listener for user changes in value
+                            select.addEventListener('change', function () {
+                                var val = DataTable.util.escapeRegex(select.value);
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                            // Add the list of options
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function (d, j) {
+                                    select.add(new Option(d));
+                                });
+                        }
+                    });
+            }
+        });
+    }
+    function initializeDataTable() {
+        new DataTable('#example2', {
+            initComplete: function () {
+                this.api()
+                    .columns()
+                    .every(function (index) {
+                        let column = this;
+
+                        // Check if this is column 2 or 3
+                        if (index === 3 || index === 4) {
+                            // Create select element
+                            let select = document.createElement('select');
+
+                            // Add the "All" option
+                            select.add(new Option('All', ''));
+
+                            // Replace the footer with the select element
+                            column.footer().replaceChildren(select);
+
+                            // Apply a listener for user changes in value
+                            select.addEventListener('change', function () {
+                                var val = DataTable.util.escapeRegex(select.value);
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                            // Add the list of options
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function (d, j) {
+                                    select.add(new Option(d));
+                                });
+                        }
+                    });
+            }
+        });
+    }
+    initializeDataTable1();
+    initializeDataTable();
+</script>
+<script>
+    function toggleDivs() {
+        var div1 = document.getElementById("div1");
+        var div2 = document.getElementById("div2");
+        var toggleButton = document.getElementById("toggleButton");
+
+        if (div1.style.display === "block" || div1.style.display === "") {
+            div1.style.display = "none";
+            div2.style.display = "block";
+            toggleButton.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Show Out Of Stocks';
+        } else {
+            div1.style.display = "block";
+            div2.style.display = "none";
+            toggleButton.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Show Normal Products';
+        }
+    }
+</script>
+
+
+
+
+

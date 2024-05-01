@@ -1,0 +1,76 @@
+﻿@using Newtonsoft.Json;
+@using BusinessObject;
+
+@{
+    ViewData["Title"] = "ProductDetailPage";
+    Layout = "~/Views/Shared/_Layout_Dashboard.cshtml";
+    string Manager = Context.Session.GetString("SessionAdmin");
+    ManagerObject manager = new ManagerObject();
+    if (Manager != null)
+    {
+        manager = JsonConvert.DeserializeObject<ManagerObject>(Manager);
+    }
+    string? Message = null;
+    var MessageTo = Context.Session.GetString("Message");
+    if (MessageTo != null)
+    {
+        Message = JsonConvert.DeserializeObject<String>(MessageTo);
+        Context.Session.Remove("Message");
+    }
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+<div class="body-wrapper">
+    <div class="container">
+        <div class="container">
+            <div class="p-4 BoxStyle rounded-4 col-7 " style="border-color: #5D87FF; border-style:solid; border-width:8px; margin-left:20%">
+                @if (Message != null && Message != "")
+         {
+            <div class="alert success" style="margin-top:10px; margin-bottom: 10px">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> @Message.
+            </div>
+        }
+                <h1 class="Header" style="text-align:center; color: #5D87FF">PERSONAL PROFILE</h1>
+                <form method="POST" enctype="multipart/form-data" asp-action="/Dashboard/PersonalProfile" id="UpdateStaff" class="updateStaff" onsubmit="return ValidateEmail()">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="Username" name="Username" value="@manager.Username" readonly>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Fullname</label>
+                                <input type="text" class="form-control" id="Fullname" name="Fullname" value="@manager.Fullname">
+                                <p style="color: red;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="PhoneNumber" name="PhoneNum" value="@manager.PhoneNum">
+                                <p style="color: red;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="Email" name="Email" value="@manager.Email">
+                                <p style="color: red;"></p>
+                                <div id="emailexist" style="color: red;"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">SSN</label>
+                                <input type="text" class="form-control" id="SSN" name="Ssn" value="@manager.Ssn">
+                                <p style="color: red;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Living Address</label>
+                                <input type="text" class="form-control" id="LivingAddress" name="LivingAddress" value="@manager.LivingAddress">
+                        <p style="color: red;"></p>
+                            </div>
+                            <div style="text-align:center">
+                                <input id="submitUpdate" type="submit" class="btn btn-primary" value="Submit">
+                            </div>
+                    </form>
+            
+            </div>
+        </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/js/UpdateStaff.js"></script>
+

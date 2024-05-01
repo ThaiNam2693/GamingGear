@@ -1,0 +1,104 @@
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100%;
+        display: none;
+        width: 900px;
+        margin-bottom: 1%;
+        border-radius: 20px;
+        margin-left: 25%;
+
+    }
+}
+
+.textstyle {
+    color: black;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.textstyle p {
+    margin-left: 5%;
+
+}
+
+.boldsize {
+    color: #000;
+}
+
+
+.horizontal-timeline .items {
+    border-top: 2px solid #535653;
+    margin-right: 10px;
+}
+
+.horizontal-timeline .items .items-list {
+    position: relative;
+    margin-right: 100px;
+}
+
+.horizontal-timeline .items .items-list:before {
+    content: "";
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #535653;
+    top: 0;
+    margin-top: -5px;
+}
+
+.horizontal-timeline .items .items-list {
+    padding-top: 15px;
+
+}
+
+#myForm {
+    margin-top: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* Một lớp mờ cho phần biểu mẫu */
+    z-index: 1;
+    /* Đảm bảo rằng nó nằm trên bảng */
+    display: none;
+    /* Ban đầu ẩn nó */
+}
+
+#chosingAddressForm {
+    margin-top: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* Một lớp mờ cho phần biểu mẫu */
+    z-index: 1;
+    /* Đảm bảo rằng nó nằm trên bảng */
+    display: none;
+    /* Ban đầu ẩn nó */
+}
+.scroll-address {
+    background-color: rgb(252, 252, 252);
+    color: black;
+    padding: 20px 30px;
+    height: 130%;
+    max-height:450px;
+    /* Đặt kích thước tối đa */
+    overflow-y: auto;
+    /* Tạo thanh cuộn dọc khi cần */
+}
+
+.scroll {
+    background-color: rgb(252, 252, 252);
+    color: black;
+    padding: 20px 30px;
+    height: 130%;
+    max-height: 300px;
+    /* Đặt kích thước tối đa */
+    overflow-y: auto;
+    /* Tạo thanh cuộn dọc khi cần */
+}
